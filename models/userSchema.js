@@ -26,6 +26,14 @@ const user = mongoose.Schema({
     roomIds:{
         type : Array,
         default: []
+    },
+    dmId:{
+        type : Array,
+        default : []
+    },
+    socketId : {
+        type: mongoose.Schema.Types.Mixed,
+        default: null
     }
 },{
     timestamps :true
