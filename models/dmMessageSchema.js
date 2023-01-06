@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const DmMessage = mongoose.Schema({
-    dmId : {
+    chatId : {
     type: String,
     required: true
     },

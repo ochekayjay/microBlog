@@ -2,6 +2,7 @@ const userSchema = require('../models/userSchema')
 
 class socketClass {
     
+  userIdentity = ''
     connection(client) {
       // event fired after user signs in succesfully
       client.on("addSocketid", async function(userId){
@@ -10,7 +11,7 @@ class socketClass {
            const userData = await userSchema.findByIdAndUpdate(userId,{
             $set:{socketId:client.id}
           },{upsert:true,new:true})
-  
+          this.userIdentity = userId
           console.log(userData)
         }
         catch(error){
@@ -22,14 +23,15 @@ class socketClass {
 
 
       // event fired when the chat room is disconnected
-      client.on("disconnect", async function(userId){
-        console.log('inside socket')
+      client.on("disconnect", async function(){
+        
         try{
-           const userData = await userSchema.findByIdAndUpdate(userId,{
+           const userData = await userSchema.findByIdAndUpdate(this.userIdentity,{
             $set:{socketId:null}
           },{upsert:true})
+          console.log(this.userIdentity)
   
-          global.io.broadcast.emit('disconnectedChat', `${userData.socketId} is disconnected from chat`)
+          client.broadcast.emit('disconnectedChat', `${userData.Username} is disconnected from chat`)
           console.log(userData)
         }
         catch(error){

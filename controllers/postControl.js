@@ -1,5 +1,6 @@
 const postschema = require('../models/postSchema')
 const errorHolder = require('../controllers/errorControl')
+const userSchema = require('../models/userSchema')
 
 const createPost = async(req,res,next)=>{
     try{
@@ -62,6 +63,7 @@ const deletePost = async(req,res,next)=>{
     }
 }
 
+//searches every existing posts on the site and rates them according to their text weight
 const querySearch = async(req,res,next)=>{
     try{
     const foundData = await postschema.aggregate([
@@ -80,6 +82,8 @@ const querySearch = async(req,res,next)=>{
     }
 }
 
+
+//searches through only posts created by a particular account and rates them according to their text weight
 const querySearchUser = async(req,res,next)=>{
     try{
     const foundData = await postschema.aggregate([
@@ -101,6 +105,47 @@ const querySearchUser = async(req,res,next)=>{
         next(error)
     }
 }
+
+
+
+//feed of posts to be rendered on a users end on entry.
+
+const postsFeed = async(req,res,next)=>{
+    const User = await userSchema.findById(req.user.id)
+    try{
+        
+        const allFeeds = await postschema.findById(User.followerIds).sort({timestamps:-1})
+       
+        /*
+            const allFeeds = await postschema.aggregate([
+            {
+                $match : {
+                 userId   : {$in : User.followerIds}
+                }
+            },
+            {
+                $unwind : $documents
+            },
+            {
+                $sort : {timestamps: -1}
+            }
+        ])
+        */
+
+        res.json({feeds:allFeeds})
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+
+
+
+
+
+
+
 
 const likepost = async(req,res,next)=>{
     try{
@@ -126,4 +171,4 @@ const unlikepost = async(req,res,next)=>{
 }
 
 
-module.exports = {createPost,getPost,getAllPosts,deletePost,querySearch,querySearchUser,likepost,unlikepost} 
+module.exports = {createPost,getPost,getAllPosts,deletePost,querySearch,querySearchUser,likepost,unlikepost,postsFeed} 

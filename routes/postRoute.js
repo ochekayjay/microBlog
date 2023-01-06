@@ -1,5 +1,5 @@
 const gistschena = require('../models/postSchema')
-const {createPost,getPost,getAllPosts,deletePost,querySearch,querySearchUser,likepost,unlikepost} =  require('../controllers/postControl')
+const {createPost,getPost,getAllPosts,deletePost,querySearch,querySearchUser,likepost,unlikepost,postsFeed} =  require('../controllers/postControl')
 const router = require('express').Router()
  
 
@@ -12,6 +12,7 @@ router.get('/search',querySearch)
 router.get('/searchUser/:userid',querySearchUser)
 router.get('/likepost/:id',likepost)
 router.get('/unlikepost/:id',unlikepost)
+router.get('postfeed',postsFeed)
 
 
 module.exports = router
