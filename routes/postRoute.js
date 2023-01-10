@@ -4,14 +4,14 @@ const router = require('express').Router()
  
 
 
-router.post('/',createPost)
-router.get('/', getAllPosts)
-router.get('/:postid',getPost)
-router.delete('/:id', deletePost)
-router.get('/search',querySearch)
-router.get('/searchUser/:userid',querySearchUser)
-router.get('/likepost/:id',likepost)
-router.get('/unlikepost/:id',unlikepost)
+router.post('/',createPost) //makes a post
+router.get('/', getAllPosts) //get all posts uploaded by the user in question
+router.get('/:postid',getPost)// get a specific post made by any user
+router.delete('/:id', deletePost) //delete a post made by a user
+router.get('/search',querySearch) //search for all posts available, made by anyone
+router.get('/searchUser/:userid',querySearchUser) //search for posts made by a specific user
+router.get('/likepost/:id',likepost) //like a post
+router.get('/unlikepost/:id',unlikepost) //unlike a post
 router.get('postfeed',postsFeed)
 
 

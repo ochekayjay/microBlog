@@ -4,7 +4,12 @@ const user = mongoose.Schema({
     Username:{
         type: String,
         required: true,
-        index: true
+        index: true,
+        unique: true
+    },                                          
+    name:{
+        type: String,
+        required: true
     },
     Password:{
         type: String,
@@ -15,7 +20,13 @@ const user = mongoose.Schema({
         required: true,
         unique: true,
     },
-    followerIds:{
+    followerIds:[                                   
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    ],
+    followingIds:{            
         type : Array,
         default : []
     },

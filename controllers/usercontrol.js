@@ -8,24 +8,30 @@ const userSchema = require('../models/userSchema')
 
 const register = async(req,res,next)=>{
 try{
-    if(!req.body.Email || !req.body.Password || !req.body.Username){
+    if(!req.body.Email || !req.body.Password || !req.body.Username || !req.body.name){
         res.status(400)
         throw new errorClass('Fill all fields',400)
     }
-   const {Username,Password,Email} = req.body
-   const exisitingUser = await User.findOne({Email})
-   if(exisitingUser){
-       
-       throw new errorClass('User already exists',400)
+   const {Username,Password,Email,name} = req.body
+   const exisitingEmail = await User.findOne({Email})
+   const exisitingUsername = await User.findOne({Username})
+   if(exisitingEmail || exisitingUsername){
+       if(exisitingEmail){
+        throw new errorClass('Email already exists',400)
+       }
+       else{
+        throw new errorClass('Username already exists',400)
+       }
        
    }
 
    const seed = await bcrypt.genSalt(10)
    const hashedpassword = await bcrypt.hash(Password,seed)
    let userdata = await User.create({
-       Username,
+       Username : `@${Username}`,
        Password:hashedpassword,
-       Email
+       Email,
+       name
    })
   
   
@@ -39,6 +45,7 @@ try{
        _id:userdata.id,
        Username:userdata.Username,
        Email:userdata.Email,
+       name: userdata.name,
        followers:userdata.followerIds,
        Token:generateToken(userdata._id),
        socket : userdata.socketId,
@@ -63,14 +70,16 @@ const login = async(req,res,next)=>{
        const {Password,Email} = req.body
        const exisitingUser = await User.findOne({Email:Email})
        if(exisitingUser && (await bcrypt.compare(Password,exisitingUser.Password))){
+
+        
            res.status(200).json({
             _id:exisitingUser.id,
             Username:exisitingUser.Username,
+            name:exisitingUser.name,
             Email:exisitingUser.Email,
             followers:exisitingUser.followerIds,
             Token:generateToken(exisitingUser._id),
-            socket : userdata.socketId,
-            chatIds : userdata.chatIds})
+            chatIds : exisitingUser.chatIds})
        }
 
        else{

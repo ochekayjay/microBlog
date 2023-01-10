@@ -9,6 +9,9 @@ const createComment = async(req,res,next)=>{
             throw new errorClass('write comment',400)
         }
         else{
+            const message = req.body.message
+            const regTest = /\B@[a-zA-Z0-9!_]+/g
+            const words = message.match(regTest)
             const comment = await commentSchema.create({
                 user:req.user.id,
                 message:req.body.message,

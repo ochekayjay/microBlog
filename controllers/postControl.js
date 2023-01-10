@@ -1,17 +1,66 @@
 const postschema = require('../models/postSchema')
 const errorHolder = require('../controllers/errorControl')
 const userSchema = require('../models/userSchema')
+const notification = require('../models/notificationSchema')
+const notificationSchema = require('../models/notificationSchema')
 
 const createPost = async(req,res,next)=>{
     try{
-
+        let followersArray = {onlineFollowersSockets:[],offlineFollowersIds:[],onlineTagged:[],offlineTagged:[]}
         if(!req.body.message){
             throw new errorHolder('fill in message',400)
         }
-        const post =  await postschema.create({
+            const message = req.body.message
+            /*const regTest = /\B@[a-zA-Z0-9!_]+/g
+            const words = message.match(regTest)
+            console.log(words)*/
+
+            const post =  await postschema.create({
             message: req.body.message,
             userId:req.user.id
-        })
+            })
+            if(post.message){
+                const regTest = /\B@[a-zA-Z0-9!_]+/g
+                const words = message.match(regTest) //checks for the presence of the @ keyword in the post  created
+
+                if(words){
+                    const foundUsers = await userSchema.aggregate([
+                        {$match:{$text: 
+                            {$search: message}
+                        }}])
+                    for(let i=0; i<foundUsers.length;i++){
+                        if(foundUsers[i]['socketId']){
+                            followersArray.onlineTagged.append(foundUsers[i]['socketId'])
+                        }
+                        else{
+                            followersArray.offlineTagged.append(foundUsers[i]['_id'])
+                            const nots = await notificationSchema.create({
+                                userId: foundUsers[i]['_id'],
+                                postId : post.id
+                            })
+                        }
+                    }
+                global.io.to(followersArray.onlineTagged).emit('notifications',post)
+                
+                }}
+        const followerUsers = await userSchema.findById(req.user.id)
+        .select('-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -socketId -timestamps')
+        .populate('followerIds', '-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -followerIds -timestamps')
+                
+        for(let i=0; i<followerUsers.length; i++){
+            if(!followerUsers.followerIds.socketId){
+                    followersArray.offlineFollowersIds.append(followerUsers.followerIds.id)
+                    const nots = await notificationSchema.create({
+                        userId: followerUsers.followerIds.id,
+                        postId : post.id
+                    })
+            }
+            else{
+                followersArray.onlineFollowersSockets.append(followerUsers.followerIds.socketId)
+            }
+        }
+        global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)
+                
         res.json({post})
     }
 
