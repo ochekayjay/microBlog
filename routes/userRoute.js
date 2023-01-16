@@ -6,8 +6,8 @@ const router = require('express').Router()
 router.post('/register', register)
 router.post('/signin', login)
 router.delete('/delete/:id',deleteUser)
-router.get('follow/:accId',authorizeUser,followAccount)
-router.get('unfollow/:accId',authorizeUser,unfollowAccount)
+router.get('/follow/:accId',authorizeUser,followAccount)
+router.get('/unfollow/:accId',authorizeUser,unfollowAccount)
 
 
 module.exports = router

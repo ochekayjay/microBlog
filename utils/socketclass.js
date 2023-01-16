@@ -1,18 +1,53 @@
 const userSchema = require('../models/userSchema')
 
 class socketClass {
-    
+    Socketarray = []
   userIdentity = ''
     connection(client) {
       // event fired after user signs in succesfully
       client.on("addSocketid", async function(userId){
         console.log('inside socket')
+        //console.log(global.io.sockets.sockets)
+        //const a = global.io.sockets.sockets
+        //console.log(typeof global.io.sockets.sockets)
+        //console.log(typeof global.io.sockets.adapter.sids)
+        //console.log(Object.keys(global.io.sockets.sockets))
+
+
+        /*let socketsArray = await global.io.fetchSockets();
+
+        console.log(socketsArray)*/
+
+       /* for (let [id, socket] of io.sockets.entries()) {
+          console.log(`${id} is ${socket}`)
+      }*/
+
+
+
+        //console.log(global.io.sockets.sockets)
+        //console.log(global.io.sockets)
+        //console.log(global.io.sockets.sockets._eventsCount)
+        /*global.io.sockets.adapter.sids.map(function(e) {
+          console.log(e)})*/
+        /*io.sockets.sockets.map(function(e) {
+          Socketarray.push(e.id);
+      })
+      global.io.sockets.adapter.sids.map(function(e) {
+        console.log(e)})*/
+        const a  = global.io.sockets.adapter.sids 
+
+        console.log([...a.keys()])
+        //console.log(a.Map(1))
+        //console.log(typeof a)
+        //console.log(Object.entries(a))
+        //console.log(a)
+        //console.log(Socketarray)
         try{
            const userData = await userSchema.findByIdAndUpdate(userId,{
             $set:{socketId:client.id}
           },{upsert:true,new:true})
           this.userIdentity = userId
-          console.log(userData)
+          
         }
         catch(error){
           console.log(error)
@@ -23,7 +58,7 @@ class socketClass {
 
 
       // event fired when the chat room is disconnected
-      client.on("disconnect", async function(){
+      /*client.on("disconnect", async function(){
         
         try{
            const userData = await userSchema.findByIdAndUpdate(this.userIdentity,{
@@ -39,7 +74,7 @@ class socketClass {
         }
         
         
-      });
+      });*/
       // add identity of user mapped to the socket id
       client.on("identity", (userId) => {
         this.users.push({

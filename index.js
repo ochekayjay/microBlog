@@ -47,7 +47,7 @@ app.use(cors({
 global.io = socketio(server);
 global.io.on('connection', socketClass.connection)
 global.io.on('connection', async(connect)=>{
-    
+  //console.log(Object.keys(global.io.sockets.sockets))
     console.log(`you are welcome ${connect.id} again`)
     global.io.to(connect.id).emit('secondInfo',`${connect.id} just came online for second emit`)
 })

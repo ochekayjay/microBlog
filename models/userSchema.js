@@ -26,10 +26,12 @@ const user = mongoose.Schema({
             ref : 'User'
         }
     ],
-    followingIds:{            
-        type : Array,
-        default : []
-    },
+    followingIds:[                                   
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    ],
     chatIds:{
         type : Array,
         default: []
@@ -47,4 +49,5 @@ const user = mongoose.Schema({
     timestamps :true
 })
 
+user.index({ Username: 'text'})
 module.exports = mongoose.model('User',user)

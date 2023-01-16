@@ -6,23 +6,27 @@ const notification = mongoose.Schema({
         ref: 'User',
         required: true
     },
-    postId: [
+    postId: 
         {
             type: mongoose.Schema.Types.ObjectId,
             ref : 'Gist'
         }
-    ],
-    comments: [
+    ,
+    commentId: 
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'Comment'
+        }
+    ,
+    
+    parent_Comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref : 'Comment'
         }
     ],
-    socketId : {
-        type: mongoose.Schema.Types.Mixed,
-        default: null
-    }
-
+   
+   
 },{
     timestamps :true
 })

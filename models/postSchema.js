@@ -11,14 +11,19 @@ const gist = mongoose.Schema({
         required: true,
         index: true
     },
-    comments:{
-        type : Array,
-        default: []
-    },
-    like: {
-        type : Number,
-        default :0
-    }
+    comments:[                                   
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'Comment'
+        }
+    ],
+    
+    like: [                                   
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref : 'User'
+        }
+    ]
     ,
     CommentNumbers: {
         type : Number,

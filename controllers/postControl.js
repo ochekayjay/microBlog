@@ -22,7 +22,7 @@ const createPost = async(req,res,next)=>{
             if(post.message){
                 const regTest = /\B@[a-zA-Z0-9!_]+/g
                 const words = message.match(regTest) //checks for the presence of the @ keyword in the post  created
-
+                console.log(words)
                 if(words){
                     const foundUsers = await userSchema.aggregate([
                         {$match:{$text: 
@@ -30,14 +30,15 @@ const createPost = async(req,res,next)=>{
                         }}])
                     for(let i=0; i<foundUsers.length;i++){
                         if(foundUsers[i]['socketId']){
-                            followersArray.onlineTagged.append(foundUsers[i]['socketId'])
+                            followersArray.onlineTagged.push(foundUsers[i]['socketId'])
                         }
                         else{
-                            followersArray.offlineTagged.append(foundUsers[i]['_id'])
+                            followersArray.offlineTagged.push(foundUsers[i]['_id'])
                             const nots = await notificationSchema.create({
                                 userId: foundUsers[i]['_id'],
                                 postId : post.id
                             })
+                            console.log(nots)
                         }
                     }
                 global.io.to(followersArray.onlineTagged).emit('notifications',post)
@@ -46,18 +47,10 @@ const createPost = async(req,res,next)=>{
         const followerUsers = await userSchema.findById(req.user.id)
         .select('-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -socketId -timestamps')
         .populate('followerIds', '-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -followerIds -timestamps')
-                
+         
+        
         for(let i=0; i<followerUsers.length; i++){
-            if(!followerUsers.followerIds.socketId){
-                    followersArray.offlineFollowersIds.append(followerUsers.followerIds.id)
-                    const nots = await notificationSchema.create({
-                        userId: followerUsers.followerIds.id,
-                        postId : post.id
-                    })
-            }
-            else{
-                followersArray.onlineFollowersSockets.append(followerUsers.followerIds.socketId)
-            }
+                followersArray.onlineFollowersSockets.push(followerUsers.followerIds.socketId)
         }
         global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)
                 
@@ -200,7 +193,7 @@ const likepost = async(req,res,next)=>{
     try{
         console.log('a')
         const likedpost = await postschema.findByIdAndUpdate(req.params.id,
-            {$inc:{like:1}},{new:true})
+            {$push:{'like':req.user.id}},{new:true})
         res.json(likedpost)
     }
     catch(error){

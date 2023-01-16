@@ -138,25 +138,40 @@ const login = async(req,res,next)=>{
 
     const followAccount = async(req,res,next)=>{
 
-        const follow = userSchema.findByIdAndUpdate(req.user.id,{
+        await userSchema.findByIdAndUpdate(req.params.accId,{
             $push:{
-                'followerIds':req.params.accId
+                'followerIds':req.user.id 
             }
         },{new:true})
 
-        if(req.params.accId in follow.followerIds){
-            res.json({status:true})
+        const follow = await userSchema.findByIdAndUpdate(req.user.id,{
+            $push:{
+                'followingIds':req.params.accId 
+            }
+        },{new:true})
+
+        console.log(follow)
+
+        if(req.params.accId in follow.followingIds){
+            res.json(follow)
         }
         
         
     }
 
     const unfollowAccount = async(req,res,next)=>{
-        const follow = userSchema.findByIdAndUpdate(req.user.id,{
+        const follow = userSchema.findByIdAndUpdate(req.params.accId,{
             $pull:{
-                'followerIds':req.params.accId
+                'followerIds':req.user.id 
             }
         },{new:true})
+
+        userSchema.findByIdAndUpdate(req.user.id,{
+            $pull:{
+                'followingIds':req.params.accId 
+            }
+        })
+
 
         if(req.params.accId in follow.followerIds){
             res.json({status:true})
