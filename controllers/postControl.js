@@ -3,6 +3,7 @@ const errorHolder = require('../controllers/errorControl')
 const userSchema = require('../models/userSchema')
 const notification = require('../models/notificationSchema')
 const notificationSchema = require('../models/notificationSchema')
+const postNotifier = require('../controllers/postNotification')
 
 const createPost = async(req,res,next)=>{
     try{
@@ -19,8 +20,9 @@ const createPost = async(req,res,next)=>{
             message: req.body.message,
             userId:req.user.id
             })
-            if(post.message){
-                const regTest = /\B@[a-zA-Z0-9!_]+/g
+        
+            postNotifier(post.message,post,req.user.id)
+               /* const regTest = /\B@[a-zA-Z0-9!_]+/g
                 const words = message.match(regTest) //checks for the presence of the @ keyword in the post  created
                 console.log(words)
                 if(words){
@@ -43,7 +45,7 @@ const createPost = async(req,res,next)=>{
                     }
                 global.io.to(followersArray.onlineTagged).emit('notifications',post)
                 
-                }}
+                }
         const followerUsers = await userSchema.findById(req.user.id)
         .select('-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -socketId -timestamps')
         .populate('followerIds', '-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -followerIds -timestamps')
@@ -52,10 +54,11 @@ const createPost = async(req,res,next)=>{
         for(let i=0; i<followerUsers.length; i++){
                 followersArray.onlineFollowersSockets.push(followerUsers.followerIds.socketId)
         }
-        global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)
+        global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)*/
                 
         res.json({post})
-    }
+    
+}
 
     catch(error){
         next(error)

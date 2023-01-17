@@ -1,7 +1,7 @@
 const commentSchema = require('../models/commentSchema')
 const errorClass = require('../controllers/errorControl')
 const postSchema = require('../models/postSchema')
-const notifier = require('./createNotifications')
+const notifier = require('./commentNotifications')
 
 
 const createComment = async(req,res,next)=>{
@@ -25,7 +25,7 @@ const createComment = async(req,res,next)=>{
                     $push:{'comments':comment._id}
                     },{new:true})
                 if(post.comments.includes(comment._id)){
-                    notifier(req.body.message,comment._id,null,comment.parent_post_id)
+                    notifier(req.body.message,comment._id,null,comment.parent_post_id,'post',req.user.id)
                     res.json(comment)
                 }else{
                     throw new errorClass('could not make comment',500)
@@ -51,7 +51,7 @@ const createComment = async(req,res,next)=>{
                     $push:{'child_Comments':comment._id}
                     },{new:true})
                 if(parentCommentUpdated.comments.includes(comment._id)){
-                    notifier(req.body.message,comment._id,comment.parent_Comments,comment.parent_post_id)
+                    notifier(req.body.message,comment._id,comment.parent_Comments,comment.parent_post_id,'comment',req.user.id)
                     res.json(comment)
                 }else{
                     throw new errorClass('could not make comment',500)
