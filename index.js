@@ -13,7 +13,8 @@ const postRoute = require('./routes/postRoute')
 const commentRoute = require('./routes/commentRoute')
 const socketClass = require('./utils/socketclass')
 const messages = require('./routes/dmMessageRoute')
-const swaggerDoc = require('swagger-ui-express')
+const swaggerUI = require('swagger-ui-express')
+const testdocs = require('./swaggerDocuments')
 
 
 
@@ -38,6 +39,7 @@ app.use(cors({
   app.use('/user', userAuth)
   app.use('/post',authorizeUser,postRoute)
   app.use('/comment',authorizeUser,commentRoute)
+  app.use('/docs', swaggerUI.serve, swaggerUI.setup(testdocs));
   app.use('/message',authorizeUser,messages)
 
   app.use(catchError)

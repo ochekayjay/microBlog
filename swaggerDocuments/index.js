@@ -1,3 +1,5 @@
+const userDocs = require('./userRoutesDocs')
+
 const swaggerdocs = {
     openapi: '3.0.3',
     info: {
@@ -9,7 +11,7 @@ const swaggerdocs = {
     email: "josephigoche777@gmail.com"}
 },
 servers:[
-{url: "https://petstore3.swagger.io/api/v3"},
+{url: " http://localhost:4000"},
 {url : "https://petstore3.swagger.io/api/v3"}
 ]
   ,
@@ -24,5 +26,10 @@ description: "Includes creating, deleting, liking, unliking, get a comment or co
 description: "Includes getting,sending and deleting messages to a particular end user."}
 ],
 
+paths: {
+  ...userDocs
 
 }
+}
+
+module.exports = swaggerdocs
