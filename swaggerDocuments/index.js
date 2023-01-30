@@ -1,4 +1,5 @@
-const userDocs = require('./userRoutesDocs')
+const { userPaths }  = require('./userRoutesDocs')
+const swaggerSchema = require('./swaggerSchema')
 
 const swaggerdocs = {
     openapi: '3.0.3',
@@ -27,9 +28,10 @@ description: "Includes getting,sending and deleting messages to a particular end
 ],
 
 paths: {
-  ...userDocs
+  ...userPaths
 
-}
+},
+...swaggerSchema
 }
 
 module.exports = swaggerdocs

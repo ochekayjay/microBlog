@@ -17,10 +17,10 @@ try{
    const exisitingUsername = await User.findOne({Username})
    if(exisitingEmail || exisitingUsername){
        if(exisitingEmail){
-        throw new errorClass('Email already exists',400)
+        throw new errorClass('Email already exists',404)
        }
        else{
-        throw new errorClass('Username already exists',400)
+        throw new errorClass('Username already exists',405)
        }
        
    }
