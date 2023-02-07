@@ -7,16 +7,7 @@ class socketClass {
       // event fired after user signs in succesfully
       client.on("addSocketid", async function(userId){
         console.log('inside socket')
-        //console.log(global.io.sockets.sockets)
-        //const a = global.io.sockets.sockets
-        //console.log(typeof global.io.sockets.sockets)
-        //console.log(typeof global.io.sockets.adapter.sids)
-        //console.log(Object.keys(global.io.sockets.sockets))
-
-
-        /*let socketsArray = await global.io.fetchSockets();
-
-        console.log(socketsArray)*/
+       
 
        /* for (let [id, socket] of io.sockets.entries()) {
           console.log(`${id} is ${socket}`)
@@ -36,7 +27,7 @@ class socketClass {
         console.log(e)})*/
         const a  = global.io.sockets.adapter.sids 
 
-        console.log([...a.keys()])
+        
         //console.log(a.Map(1))
         //console.log(typeof a)
         //console.log(Object.entries(a))

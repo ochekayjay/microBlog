@@ -1,4 +1,6 @@
 const { userPaths }  = require('./userRoutesDocs')
+const { postPaths } = require('./postRoutesDocs')
+const { commentPaths } = require('./commentRoutesDocs')
 const swaggerSchema = require('./swaggerSchema')
 
 const swaggerdocs = {
@@ -28,7 +30,9 @@ description: "Includes getting,sending and deleting messages to a particular end
 ],
 
 paths: {
-  ...userPaths
+  ...userPaths,
+  ...postPaths,
+  ...commentPaths
 
 },
 ...swaggerSchema

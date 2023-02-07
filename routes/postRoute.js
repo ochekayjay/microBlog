@@ -12,7 +12,7 @@ router.get('/search',querySearch) //search for all posts available, made by anyo
 router.get('/searchUser/:userid',querySearchUser) //search for posts made by a specific user
 router.get('/likepost/:id',likepost) //like a post
 router.get('/unlikepost/:id',unlikepost) //unlike a post
-router.get('postfeed',postsFeed)
+router.get('/postfeed',postsFeed)
 
 
 module.exports = router

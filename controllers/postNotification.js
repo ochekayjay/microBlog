@@ -7,7 +7,7 @@ let followersArray = {onlineFollowersSockets:[],offlineFollowersIds:[],onlineTag
 const postNotifier = async(message,post,userId)=>{
     const regTest = /\B@[a-zA-Z0-9!_]+/g
                 const words = message.match(regTest) //checks for the presence of the @ keyword in the post  created
-                console.log(words)
+                
                 if(words){
                     const foundUsers = await userSchema.aggregate([
                         {$match:{$text: 
@@ -28,10 +28,12 @@ const postNotifier = async(message,post,userId)=>{
                                 userId: foundUsers[i]['_id'],
                                 postId : post.id
                             })
-                            console.log(nots)
+                        
                         }
                     }
+                    console.log(`tags in ${followersArray}`)
                 global.io.to(followersArray.onlineTagged).emit('notifications',post)
+                followersArray.onlineTagged = []
                 
                 }
         const followerUsers = await userSchema.findById(userId)
@@ -39,12 +41,17 @@ const postNotifier = async(message,post,userId)=>{
         .populate('followerIds', '-Username -name -Password -Email -_id -followingIds -chatIds -roomIds -followerIds -timestamps')
          
         
-        for(let i=0; i<followerUsers.length; i++){
+        for(let i=0; i<followerUsers.followerIds.length; i++){
             //offline followers do not need to see posts in notification section when they finally come back online.
             //it would automatically have appeared on their feed section.
-                followersArray.onlineFollowersSockets.push(followerUsers.followerIds.socketId)
+                followersArray.onlineFollowersSockets.push(followerUsers.followerIds[i].socketId)
+                console.log(followerUsers.length)
+                console.log(followerUsers)
         }
+        console.log(`no tags ${followersArray}`)
+        console.log(followersArray.onlineFollowersSockets)
         global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)
+        followersArray.onlineFollowersSockets = []
                 
 }
 

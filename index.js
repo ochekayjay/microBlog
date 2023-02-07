@@ -15,6 +15,7 @@ const socketClass = require('./utils/socketclass')
 const messages = require('./routes/dmMessageRoute')
 const swaggerUI = require('swagger-ui-express')
 const testdocs = require('./swaggerDocuments')
+const morgan = require('morgan')
 
 
 
@@ -33,6 +34,20 @@ app.use(cors({
     app.use(
       bodyParser.json()
     );
+
+    app.use(morgan('tiny'))
+
+    /*
+    morgan((tokens, req, res) => {
+      return [
+          tokens.method(req, res),
+          tokens.url(req, res),
+          tokens.status(req, res),
+          tokens.res(req, res, 'content-length'), '-',
+          tokens['response-time'](req, res), 'ms'
+      ].join(' ')
+  })
+*/
 
     connectDatabase()
     

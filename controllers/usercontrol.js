@@ -34,22 +34,14 @@ try{
        name
    })
   
-  
-  userdata = await User.findByIdAndUpdate(userdata.id,{
-    $push : {"followerIds":userdata.id}
-  },{new : true})
-   
-  
 
    res.status(200).json({
        _id:userdata.id,
        Username:userdata.Username,
        Email:userdata.Email,
        name: userdata.name,
-       followers:userdata.followerIds,
        Token:generateToken(userdata._id),
        socket : userdata.socketId,
-       chatIds : userdata.chatIds
    })
 
 }
@@ -77,9 +69,10 @@ const login = async(req,res,next)=>{
             Username:exisitingUser.Username,
             name:exisitingUser.name,
             Email:exisitingUser.Email,
-            followers:exisitingUser.followerIds,
+            followers:exisitingUser?.followerIds,
             Token:generateToken(exisitingUser._id),
-            chatIds : exisitingUser.chatIds})
+            followingIds: exisitingUser?.followingIds,
+            chatIds : exisitingUser?.chatIds})
        }
 
        else{
@@ -152,29 +145,39 @@ const login = async(req,res,next)=>{
 
         console.log(follow)
 
-        if(req.params.accId in follow.followingIds){
-            res.json(follow)
+        if( follow.followingIds.includes(req.params.accId)){
+            const checker = follow.followingIds.includes(req.params.accId)
+            console.log(typeof checker)
+            res.json( {_id:follow.id,
+                Username:follow.Username,
+                name:follow.name,
+                followers:follow?.followerIds,
+                followingIds: follow?.followingIds})
         }
         
         
     }
 
     const unfollowAccount = async(req,res,next)=>{
-        const follow = userSchema.findByIdAndUpdate(req.params.accId,{
+         await userSchema.findByIdAndUpdate(req.params.accId,{
             $pull:{
                 'followerIds':req.user.id 
             }
         },{new:true})
 
-        userSchema.findByIdAndUpdate(req.user.id,{
+        const follow = await userSchema.findByIdAndUpdate(req.user.id,{
             $pull:{
                 'followingIds':req.params.accId 
             }
         })
 
 
-        if(req.params.accId in follow.followerIds){
-            res.json({status:true})
+        if(  !follow.followerIds.includes(req.params.accId)){
+            res.json({_id:follow.id,
+                Username:follow.Username,
+                name:follow.name,
+                followers:follow?.followerIds,
+                followingIds: follow?.followingIds})
         }
         
         

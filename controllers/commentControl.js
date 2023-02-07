@@ -26,7 +26,7 @@ const createComment = async(req,res,next)=>{
                     },{new:true})
                 if(post.comments.includes(comment._id)){
                     notifier(req.body.message,comment._id,null,comment.parent_post_id,'post',req.user.id)
-                    res.json(comment)
+                    //res.json(comment)
                 }else{
                     throw new errorClass('could not make comment',500)
                 }
@@ -45,12 +45,13 @@ const createComment = async(req,res,next)=>{
                     parent_Comments : [...parentComment.parent_Comments,parentComment._id]
                 
                 })
+               
     
                 
                 const parentCommentUpdated = await commentSchema.findByIdAndUpdate(req.params.parent,{
                     $push:{'child_Comments':comment._id}
                     },{new:true})
-                if(parentCommentUpdated.comments.includes(comment._id)){
+                if(parentCommentUpdated.child_Comments.includes(comment._id)){
                     notifier(req.body.message,comment._id,comment.parent_Comments,comment.parent_post_id,'comment',req.user.id)
                     res.json(comment)
                 }else{

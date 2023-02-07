@@ -72,7 +72,7 @@ const getPost = async(req,res,next)=>{
         if(!userPosts){
             throw new errorHolder('invalid user',400)
         }
-        console.log('it works')
+    
         res.json(userPosts)
     }
     catch(error){
@@ -86,7 +86,7 @@ const getAllPosts = async(req,res,next)=>{
         if(!userPosts){
             throw new errorHolder('invalid user',400)
         }
-        console.log('it works')
+    
         res.json(userPosts)
     }
     catch(error){
@@ -159,7 +159,7 @@ const postsFeed = async(req,res,next)=>{
     const User = await userSchema.findById(req.user.id)
     try{
         
-        const allFeeds = await postschema.findById(User.followerIds).sort({timestamps:-1})
+        const allFeeds = await postschema.find({userId:User.followerIds}).sort({timestamps:-1})
        
         /*
             const allFeeds = await postschema.aggregate([
@@ -194,7 +194,7 @@ const postsFeed = async(req,res,next)=>{
 
 const likepost = async(req,res,next)=>{
     try{
-        console.log('a')
+        
         const likedpost = await postschema.findByIdAndUpdate(req.params.id,
             {$push:{'like':req.user.id}},{new:true})
         res.json(likedpost)
