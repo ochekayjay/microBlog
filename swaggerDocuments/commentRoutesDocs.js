@@ -1,10 +1,10 @@
 const commentPaths = {
   
-    "/comment/{:parent}":{
+    "/comment/{parent}":{
         post:{
             tags:['Comment'],
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ],
             description: 'create a comment on the platform',
             parameters:[
@@ -15,7 +15,7 @@ const commentPaths = {
                     schema:{
                         type: 'string',}},
                 {name: "type",
-                    in: "path",
+                    in: "header",
                     description: 'comment to a direct post or a comment,{comment/post}',
                     required: true,
                     schema:{
@@ -54,7 +54,7 @@ const commentPaths = {
         get:{
                                                     
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
             ],
             parameters:[
             {name: "id",
@@ -88,7 +88,7 @@ const commentPaths = {
                     delete:{
                                                                 
                         security:[
-                            {Bearer: []}
+                            {bearerAuth: []}
                         ],
                         parameters:[
                         {name: "id",
@@ -123,7 +123,7 @@ const commentPaths = {
         get:{
                                                             
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ], 
             parameters:[
                 {name: "id",

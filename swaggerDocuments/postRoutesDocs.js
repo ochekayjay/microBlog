@@ -3,7 +3,7 @@ const postPaths = {
         post:{
             tags:['Post'],
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
             ],
             description: 'Create posts on the platform',
             requestBody:{
@@ -37,7 +37,7 @@ const postPaths = {
     
         get:{               
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ],
             
             tags:['Post'],
@@ -64,13 +64,13 @@ const postPaths = {
         get:{
             tags:['Post'],
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ],
             description: 'get a post created on the platform',
             parameters:[
                 {name: "postid",
                     in: "path",
-                    description: 'post id to follow',
+                    description: 'post id to get',
                     required: true,
                     schema:{
                         type: 'string',}}
@@ -98,7 +98,7 @@ const postPaths = {
         delete:{
                                                     
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
             ],
             parameters:[
             {name: "id",
@@ -128,11 +128,11 @@ const postPaths = {
                                                         
                     }
                 },
-    "post/search":{
+    "/post/search":{
         get:{
                                                             
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ], 
             parameters:[
                 {name: "message",
@@ -150,7 +150,7 @@ const postPaths = {
                     content:
                         {"application/json":{
                             schema:{
-                                $ref: '#/components/schemas/CreatedPost'
+                                $ref: '#/components/schemas/SearchPost'
                                     }
                                             }         
                         }
@@ -158,11 +158,11 @@ const postPaths = {
                 },
         }
     },
-    "post/searchUser/{userid}":{
+    "/post/searchUser/{userid}":{
         get:{
                                                             
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ], 
             parameters:[
                 {name: "message",
@@ -186,7 +186,7 @@ const postPaths = {
                     content:
                         {"application/json":{
                             schema:{
-                                $ref: '#/components/schemas/CreatedPost'
+                                $ref: '#/components/schemas/SearchPost'
                                     }
                                             }         
                         }
@@ -194,11 +194,11 @@ const postPaths = {
                 },
         }
     },
-    "post/likepost/{id}":{
+    "/post/likepost/{id}":{
         get:{
                                                             
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ], 
             parameters:[
                 {name: "id",
@@ -224,11 +224,11 @@ const postPaths = {
                 },
         }
     },
-    "post/postfeed":{
+    "/post/postfeed":{
         get:{
                                                             
             security:[
-                {Bearer: []}
+                {bearerAuth: []}
                     ], 
                 tags:['Post'],
                 description: 'posts on your feed',
@@ -258,6 +258,14 @@ const postSwagSchema = {
                 example: 'trying out my first post'}
                 },
             },
+            SearchPost:[{
+                type: 'object',
+                properties:{
+                    message:{
+                        type: 'string',
+                        example: 'trying out my first post'}
+                        },
+                    }],
     CreatedPost: {
         type: 'object',
         properties:{

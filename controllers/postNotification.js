@@ -32,7 +32,8 @@ const postNotifier = async(message,post,userId)=>{
                         }
                     }
                     console.log(`tags in ${followersArray}`)
-                global.io.to(followersArray.onlineTagged).emit('notifications',post)
+                    followersArray.onlineTagged.forEach(tag=>global.io.to(tag).emit('notifications',post))
+                
                 followersArray.onlineTagged = []
                 
                 }
@@ -48,9 +49,9 @@ const postNotifier = async(message,post,userId)=>{
                 console.log(followerUsers.length)
                 console.log(followerUsers)
         }
-        console.log(`no tags ${followersArray}`)
-        console.log(followersArray.onlineFollowersSockets)
-        global.io.to(followersArray.onlineFollowersSockets).emit('newFeed',post)
+    
+        followersArray.onlineFollowersSockets.forEach(socketid=>global.io.to(socketid).emit('newFeed',post))
+        
         followersArray.onlineFollowersSockets = []
                 
 }

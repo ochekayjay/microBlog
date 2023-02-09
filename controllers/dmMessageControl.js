@@ -46,7 +46,7 @@ const createMessage = async(req,res,next)=>{
                     })
                     console.log(message)
                     if(foundrecipient.socketId){
-                        global.io.to(foundrecipient.socketId).emit('messageSent',message.message)
+                        global.io.to(foundrecipient.socketId).emit('messageSent',message)
                     }
                 }
                 else{
@@ -62,7 +62,7 @@ const createMessage = async(req,res,next)=>{
                 })
                 console.log(message)
                 if(foundrecipient.socketId && message.message){
-                    global.io.to(foundrecipient.socketId).emit('messageSent',message.message)
+                    global.io.to(foundrecipient.socketId).emit('messageSent',message)
                 }
                 
             }}

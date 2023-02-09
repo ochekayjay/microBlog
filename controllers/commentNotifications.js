@@ -44,8 +44,9 @@ if(words){
             {$search: words} //you can try $in here
         }}])
         
-  
+        
         socketGetter(followersArray,foundUsers,parentPost,postId,parentComments,'user')
+        
        
     }
 

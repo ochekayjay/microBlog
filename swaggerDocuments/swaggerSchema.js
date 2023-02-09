@@ -9,8 +9,9 @@ module.exports = {
            ...commentSwagSchema
     },
     securitySchemes:{
-        BearerAuth:{
+        bearerAuth:{
             type: "http",
+            bearerFormat: "JWT",
             scheme: "bearer"
         }
     }

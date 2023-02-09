@@ -86,12 +86,15 @@ for(let i=0; i<foundUsers.length;i++){
         }
     }}
     else{
+        
         if( allSocketIds.includes(foundUsers[i]['socketId'])){
+
             //make user and userId same for comment and post, remember to make that of user model exclusive
             followersArray.onlineTagged.push(foundUsers[i]['socketId'])
             
         }
         else{
+        
             followersArray.offlineTagged.push(foundUsers[i]['_id'])
     
             if(parentComments !== null){

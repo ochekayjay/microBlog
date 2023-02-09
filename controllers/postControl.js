@@ -68,7 +68,7 @@ const createPost = async(req,res,next)=>{
 
 const getPost = async(req,res,next)=>{
     try{
-        userPosts = await postschema.find({userId : req.params.postid})
+        userPosts = await postschema.findById(req.params.postid)
         if(!userPosts){
             throw new errorHolder('invalid user',400)
         }
@@ -110,10 +110,13 @@ const deletePost = async(req,res,next)=>{
 
 //searches every existing posts on the site and rates them according to their text weight
 const querySearch = async(req,res,next)=>{
+    
     try{
+        
     const foundData = await postschema.aggregate([
         {$match:{$text: 
-            {$search: req.query.message}
+            {$search: req.query.message,
+            $caseSensitive: false}
         }},{
             $sort:{
                 count:{$meta:"textScore"},
@@ -137,7 +140,8 @@ const querySearchUser = async(req,res,next)=>{
                 {userId:
                     req.params.userid},
                 {$text: 
-            {$search: req.query.message}
+            {$search: req.query.message,
+                $caseSensitive: false}
         }]}},{
             $sort:{
                 count:{$meta:"textScore"},

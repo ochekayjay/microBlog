@@ -26,7 +26,7 @@ const createComment = async(req,res,next)=>{
                     },{new:true})
                 if(post.comments.includes(comment._id)){
                     notifier(req.body.message,comment._id,null,comment.parent_post_id,'post',req.user.id)
-                    //res.json(comment)
+                    res.json(comment)
                 }else{
                     throw new errorClass('could not make comment',500)
                 }

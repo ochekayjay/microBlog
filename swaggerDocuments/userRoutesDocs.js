@@ -40,7 +40,7 @@ const userPaths = {
                         delete:{
                             
                             security:[
-                                {Bearer: []}
+                                {bearerAuth: []}
                             ],
                             parameters:[
                             {name: "id",
@@ -81,10 +81,10 @@ const userPaths = {
                                             content:{
                                                 "application/json":
                                                     {schema:{
-                                                        $ref: '#/components/schemas/User'}},
+                                                        $ref: '#/components/schemas/UserSignIn'}},
                                                 "application/x-www-form-urlencoded":
                                                     {schema:{
-                                                        $ref: '#/components/schemas/User'}}},
+                                                        $ref: '#/components/schemas/UserSignIn'}}},
                                             required: true},
                                         responses:
                                             {'200':{
@@ -113,7 +113,7 @@ const userPaths = {
                                                 get:{
                                                     
                                                     security:[
-                                                        {Bearer: []}
+                                                        {bearerAuth: []}
                                                     ],
                                                     parameters:[
                                                     {name: "accId",
@@ -147,7 +147,7 @@ const userPaths = {
                                                         get:{
                                                             
                                                             security:[
-                                                                {Bearer: []}
+                                                                {bearerAuth: []}
                                                             ], 
                                                             parameters:[
                                                                 {name: "accId",
@@ -199,6 +199,19 @@ const userSwagSchema = {
                 example: 'joe@gmail.com'}
                 },
             },
+            UserSignIn:{
+                type: 'object',
+                properties:{
+                       
+                    Password:{
+                            type: 'string',
+                            example: 'abcdef'},
+                    Email:{
+                        type: 'string',
+                        example: 'joe@gmail.com'}
+                        },
+                    },
+
     CreatedUser: {
         type: 'object',
         properties:{
