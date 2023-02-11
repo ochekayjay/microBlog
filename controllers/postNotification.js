@@ -13,6 +13,7 @@ const postNotifier = async(message,post,userId)=>{
                         {$match:{$text: 
                             {$search: message}
                         }}])
+                        console.log(foundUsers)
                     for(let i=0; i<foundUsers.length;i++){
 
                         const a  = global.io.sockets.adapter.sids 
@@ -24,6 +25,7 @@ const postNotifier = async(message,post,userId)=>{
                         }
                         else{
                             followersArray.offlineTagged.push(foundUsers[i]['_id'])
+                            console.log('trying nots out')
                             const nots = await notificationSchema.create({
                                 userId: foundUsers[i]['_id'],
                                 postId : post.id

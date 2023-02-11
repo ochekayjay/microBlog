@@ -13,10 +13,10 @@ const notification = mongoose.Schema({
         }
     ,
     commentId: 
-        {
+        [{
             type: mongoose.Schema.Types.ObjectId,
             ref : 'Comment'
-        }
+        }]
     ,
     
     parent_Comments: [

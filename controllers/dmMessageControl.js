@@ -18,11 +18,9 @@ const createMessage = async(req,res,next)=>{
                 const foundrecipient = await userSchema.findById(req.body.recipientId)
                 const foundDm = await dmSchema.findOne({userIds:[req.user.id,req.body.recipientId]})
               
-                console.log(`number twenty ${foundrecipient}`)
-                console.log(`number twentyone ${foundDm}`)
                 
                 if(foundDm === null){
-                    console.log('in first set')
+                    
                     const createdDm = await dmSchema.create({
                         userIds : [req.user.id,req.body.recipientId],
                         userNames: [req.body.initiatorName,foundrecipient.Username]
@@ -50,7 +48,7 @@ const createMessage = async(req,res,next)=>{
                     }
                 }
                 else{
-                    console.log('na here werrey go stay')
+                    
                 const message = await dmMessageSchema.create({
                     senderId: req.user.id,
                     receiverId: req.body.recipientId,
@@ -73,13 +71,29 @@ const createMessage = async(req,res,next)=>{
 }
 
 
+const getDms = async(req,res,next)=>{
+    const user = await userSchema.findById(req.user.id)
+    try{
+        //this doesn't fetch all messages linked to a particular user, it only fetches one message,
+        //an array containning the chatId of all dms related to a user would be used to run through the entire 
+        //message schema collection.
+        const dms = await dmSchema.find({_id:{$in: user.chatIds}})
+        res.json({Dm_details : dms})
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+
+
 const getMessage = async(req,res,next)=>{
     try{
         //this doesn't fetch all messages linked to a particular user, it only fetches one message,
         //an array containning the chatId of all dms related to a user would be used to run through the entire 
         //message schema collection.
-        const messages = await dmMessageSchema.find({chatId:req.params.chatId})
-        res.json({messages:messages})
+        const messages = await dmMessageSchema.find({chatIds:req.params.chatId})
+        res.json({message_details : messages})
     }
     catch(error){
         next(error)
@@ -98,4 +112,4 @@ const deleteMessage = async(req,res,next)=>{
     }
 }
 
-module.exports = {createMessage,getMessage,deleteMessage}
+module.exports = {createMessage,getMessage,deleteMessage,getDms}

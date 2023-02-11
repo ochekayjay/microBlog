@@ -1,6 +1,8 @@
 const { userPaths }  = require('./userRoutesDocs')
 const { postPaths } = require('./postRoutesDocs')
 const { commentPaths } = require('./commentRoutesDocs')
+const { notif } = require('./notificationRoutesDocs')
+const { messagePaths } = require('./messageRoutesDocs')
 const swaggerSchema = require('./swaggerSchema')
 
 const swaggerdocs = {
@@ -26,13 +28,17 @@ description: "Includes creating, deleting, liking, unliking, get a post or posts
 {name: "Comment",
 description: "Includes creating, deleting, liking, unliking, get a comment or comments"},
 {name: "Messages",
-description: "Includes getting,sending and deleting messages to a particular end user."}
+description: "Includes getting,sending and deleting messages to a particular end user."},
+{name: "Notifications",
+description: "Includes getting notified when your post is liked,commented on or you ate tagged on a post or comment."}
 ],
 
 paths: {
   ...userPaths,
   ...postPaths,
-  ...commentPaths
+  ...commentPaths,
+  ...notif,
+  ...messagePaths
 
 },
 ...swaggerSchema

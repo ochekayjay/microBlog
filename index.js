@@ -15,6 +15,7 @@ const socketClass = require('./utils/socketclass')
 const messages = require('./routes/dmMessageRoute')
 const swaggerUI = require('swagger-ui-express')
 const testdocs = require('./swaggerDocuments')
+const notifRoute = require('./routes/getNotification')
 const morgan = require('morgan')
 
 
@@ -56,6 +57,7 @@ app.use(cors({
   app.use('/comment',authorizeUser,commentRoute)
   app.use('/docs', swaggerUI.serve, swaggerUI.setup(testdocs));
   app.use('/message',authorizeUser,messages)
+  app.use('/notifications',authorizeUser,notifRoute)
 
   app.use(catchError)
 
