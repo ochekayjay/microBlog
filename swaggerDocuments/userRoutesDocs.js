@@ -109,7 +109,7 @@ const userPaths = {
                                             
                                         }
                                             },
-                                            "/follow/{accId}":{
+                                            "/user/follow/{accId}":{
                                                 get:{
                                                     
                                                     security:[
@@ -143,7 +143,7 @@ const userPaths = {
                                                         },
                                                         
                                                     }},
-                                                    "unfollow/{accId}":{
+                                                    "/user/unfollow/{accId}":{
                                                         get:{
                                                             
                                                             security:[

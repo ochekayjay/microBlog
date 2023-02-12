@@ -163,7 +163,7 @@ const postsFeed = async(req,res,next)=>{
     const User = await userSchema.findById(req.user.id)
     try{
         
-        const allFeeds = await postschema.find({userId:User.followerIds}).sort({timestamps:-1})
+        const allFeeds = await postschema.find({userId:{$in : User.followingIds}}).sort({timestamps:-1})
        
         /*
             const allFeeds = await postschema.aggregate([

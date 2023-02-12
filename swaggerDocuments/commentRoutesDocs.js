@@ -119,7 +119,7 @@ const commentPaths = {
                                 }
                             },
 
-    "comment/like/{id}":{
+    "/comment/like/{id}":{
         get:{
                                                             
             security:[

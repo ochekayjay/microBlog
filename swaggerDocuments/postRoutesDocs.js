@@ -258,14 +258,55 @@ const postSwagSchema = {
                 example: 'trying out my first post'}
                 },
             },
-            SearchPost:[{
-                type: 'object',
-                properties:{
-                    message:{
-                        type: 'string',
-                        example: 'trying out my first post'}
-                        },
-                    }],
+           
+
+                    SearchPost: {
+                        type: 'object',
+                        properties:
+                            {   
+                                data:{
+                                    type : 'Array',
+                                    example : [
+                                
+                            {id:{
+                                type: 'string',
+                                example: 'n45tkrnmknm566kdf0'},
+                            userId:{
+                                type: 'string',
+                                example: 'n45tkrnmknm566kdf0'},
+                            message:{
+                                type: 'string',
+                                example: 'my first post'},
+                            comments:{
+                                    type: 'Array',
+                                    example: ['67i60hi60dhf74f488','djfiehrieh9f9eh']
+                                },
+                            like:{
+                                    type: 'Array',
+                                    example: ['67i60hi60dhf74f488','djfiehrieh9f9eh']
+                                }},
+                                {id:{
+                                    type: 'string',
+                                    example: 'n45tkrnmknm566kdf0'},
+                                userId:{
+                                    type: 'string',
+                                    example: 'n45tkrnmknm566kdf0'},
+                                message:{
+                                    type: 'string',
+                                    example: 'my first post'},
+                                comments:{
+                                        type: 'Array',
+                                        example: ['67i60hi60dhf74f488','djfiehrieh9f9eh']
+                                    },
+                                like:{
+                                        type: 'Array',
+                                        example: ['67i60hi60dhf74f488','djfiehrieh9f9eh']
+                                    }}]
+                                }
+                            }
+                                ,
+                            
+                    },
     CreatedPost: {
         type: 'object',
         properties:{
