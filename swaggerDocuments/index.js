@@ -8,9 +8,9 @@ const swaggerSchema = require('./swaggerSchema')
 const swaggerdocs = {
     openapi: '3.0.3',
     info: {
-        title: "Swagger Petstore - OpenAPI 3.0" ,
+        title: "Swagger mini-Blog&LiveChat App - OpenAPI 3.0" ,
   description: 
-    "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about",
+    "This application helps you interact with different people on the platform, you follow them, make posts, react to their posts by liking, disliking, tagging, notifications are sent in real time. It also comes with a chat section, where you can send dms to anyone provided you have the necessary data. The messages aswell are sent in real time and stored if the recipient of the message is offline. Since swagger-ui has the structural incapacity to sustain Stateless connection, i made a documentation on the stateless connections as regards getting dms and notifications in real time    'https://github.com/ochekayjay/microBlog'   ",
   
   contact: {
     email: "josephigoche777@gmail.com"}
