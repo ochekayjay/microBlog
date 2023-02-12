@@ -1,4 +1,6 @@
 {
+  "serverLink" : "https://livechat-1iyd.onrender.com",
+  "SwaggerLink" : "https://livechat-1iyd.onrender.com/docs",
   "name": "chatcontributory",
   "version": "1.0.0",
   "description": "contains dm chats, group chats and group contributions repository",

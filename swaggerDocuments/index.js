@@ -16,8 +16,8 @@ const swaggerdocs = {
     email: "josephigoche777@gmail.com"}
 },
 servers:[
-{url: " http://localhost:4000"},
-{url : "https://petstore3.swagger.io/api/v3"}
+{url : "https://livechat-1iyd.onrender.com"},
+{url: " http://localhost:4000"}
 ]
   ,
 tags: [
